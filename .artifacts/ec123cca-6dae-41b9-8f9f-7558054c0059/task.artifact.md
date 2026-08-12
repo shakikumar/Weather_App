@@ -1,0 +1,11 @@
+- [x] Verify Model Mapping
+    - [x] Check `WeatherResponse.kt` for required fields
+- [x] Implement Extraction Logic
+    - [x] Update `HomeFragment.kt` to extract all weather fields
+    - [x] Handle null/missing values safely
+    - [x] Format values (appending units like °, %, km/h)
+- [x] Update UI with Real Data
+    - [x] Update `tvCityResult`, `tvTemp`, `tvCondition`, `tvHumidity`, `tvWind` in `HomeFragment.kt`
+- [x] Verification
+    - [x] Build with `./gradlew assembleDebug`
+    - [x] Test with valid city and verify all fields update
