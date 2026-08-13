@@ -42,8 +42,10 @@ class HomeFragment : Fragment() {
         binding.btnSearch.setOnClickListener {
             val city = binding.etCity.text.toString().trim()
             if (city.isEmpty()) {
+                binding.tilCity.error = "Please enter a city name."
                 Toast.makeText(context, "Please enter a city name.", Toast.LENGTH_SHORT).show()
             } else {
+                binding.tilCity.error = null
                 fetchWeatherData(city)
             }
         }
@@ -53,6 +55,7 @@ class HomeFragment : Fragment() {
         // UI Preparation
         binding.btnSearch.isEnabled = false
         binding.progressBar.visibility = View.VISIBLE
+        binding.cardWeather.visibility = View.GONE
 
         val apiKey = BuildConfig.OPENWEATHER_API_KEY
 
@@ -74,10 +77,16 @@ class HomeFragment : Fragment() {
                         } ?: "Unknown"
                         binding.tvHumidity.text = "${it.main.humidity}%"
                         binding.tvWind.text = "${it.wind.speed} km/h"
+                        binding.cardWeather.visibility = View.VISIBLE
                     }
                 } else {
                     Log.e("WeatherApp", "HTTP Error: ${response.code()}")
-                    Toast.makeText(context, "Unable to retrieve weather information.", Toast.LENGTH_SHORT).show()
+                    val message = if (response.code() == 404) {
+                        "City not found. Please enter a valid city name."
+                    } else {
+                        "Unable to retrieve weather information."
+                    }
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
             }
 
